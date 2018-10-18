@@ -44,9 +44,11 @@ int main(void) {
     puts("\n");
 
     no = pesquisaNo(lista, 3);
-
+  
     printf("pesquisaNO => %p\n", no);
     insereFimListaSimples(&lista, 344);
+    
+   	puts("\n");
 
     puts("insereFimListaSimples() // 344");
     imprimeLista(lista);
@@ -54,39 +56,30 @@ int main(void) {
     /*puts("removeUltimoNo()");
     removeUltimoNo(&lista);
     imprimeLista(lista);
-
     puts("removeNo() //3");
     removeNo(&lista, 3);
     imprimeLista(lista);
-
     puts("copiaListas()");
     lista2 = copiaListas(lista);
     imprimeLista(lista2);
-
     puts("intersecaoListas()");
     lista2 = intersecaoListas(lista, lista2);
     imprimeLista(lista);
-
     puts("insereRemove()");
     insereRemove(&lista, &lista2);
     imprimeLista(lista);
     imprimeLista(lista2);
-
     puts("transplantaNo");
     transplantaNo(&lista, &lista2);
     imprimeLista(lista);
     imprimeLista(lista2);
-
     puts("contaNo()");
     printf("n = %d\n", contaNo(&lista));
-
     puts("alturaNo()");
     printf("h = %d\n", alturaNo(&lista, 2));
-
     puts("profundidadeNo() //3");
     printf("p = %d\n", profundidadeNo(&lista, 76));
     imprimeLista(lista);
-
     puts(" liberaNos()");
     liberaNos(&lista);
     imprimeLista(lista);*/
