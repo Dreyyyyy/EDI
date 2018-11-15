@@ -74,7 +74,22 @@ void QuickSort(int *v, int ini, int fim) {
   }
 }
 
-//void ShellSort(int *v, int ini, int fim);
+void ShellSort(int *v, int ini, int fim) {
+  int tam = fim-ini+1;//fórmula para o tamanho do vetor
+  int dist = tam / 2;//o "gap" ou a distância entre o elemento escolhido e o próximo será representado aqui
+  while (dist > 0) {//Condição do laço: enquanto a distância for maior que zero (pois se já for zero não há mais elementos para comparar)
+    int i = 0, j = 0;//Variáveis para laço inicializadas em zero por precaução
+    //Sinceramente eu não entendi muito o que acontece daqui, vi vários tutoriais e todos eram muito semelhantes com essa parte, então eu a coloquei e testei e deu certo, mas não consegui entender as iterações de forma completa
+    for (int i = dist; i < tam; i++) {
+      int varAux = v[i];
+      for (j = i; j >= dist && v[j-dist] > varAux; j -= dist) {
+        v[j] = v[j-dist];
+      }
+      v[j] = varAux;
+    }
+    dist = dist / 2;//A distância sempre deve ser a metade da distância anterior para a próxima iteração
+  }
+}
 
 void MergeSort(int *v, int ini, int fim) {
   //Essa função serve primeiramente para dividir os dados em duas partes, para depois ser aplicado a função "Merge"

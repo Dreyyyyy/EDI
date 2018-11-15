@@ -17,7 +17,7 @@ void InsertionSort(int *v, int ini, int fim);
 
 void QuickSort(int *v, int ini, int fim);
 
-//void ShellSort(int *v, int ini, int fim);
+void ShellSort(int *v, int ini, int fim);
 
 void MergeSort(int *v, int ini, int fim);
 

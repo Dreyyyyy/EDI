@@ -49,9 +49,9 @@ int main(void) {
             case 4:
                 QuickSort(vetor, 0, n-1);
                 break;
-            /*case 5:
+            case 5:
                 ShellSort(vetor, 0, n-1);
-                break;*/
+                break;
             case 6:
                 MergeSort(vetor, 0, n-1);
                 break;
