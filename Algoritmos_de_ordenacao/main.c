@@ -30,7 +30,7 @@ int main(void) {
         printf("4 - Quick Sort\n");
         printf("5 - Shell Sort\n");
         printf("6 - Merge Sort\n");
-        printf("0 - Merge Sort\n");
+        printf("0 - Encerra o programa\n");
 
         puts("\n");
 
@@ -51,11 +51,10 @@ int main(void) {
                 break;
             /*case 5:
                 ShellSort(vetor, 0, n-1);
-                break;
-            case 6:
-                puts("oi");
-                MergeSort(vetor, 0, n-1);
                 break;*/
+            case 6:
+                MergeSort(vetor, 0, n-1);
+                break;
             case 0:
                 return 0;
         }

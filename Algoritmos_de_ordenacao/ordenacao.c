@@ -1,6 +1,6 @@
 #include "ordenacao.h"
 
-//Meu código está todo comentado, pois essa foi a minha forma de memorizar, entender e estudar o que eu fiz.
+//Meu código está todo comentado, pois essa foi a minha forma de memorizar, entender e estudar o que eu fiz(E tentar explicar mas acho que tem coisas ali que só vai fazer sentido para mim :")).
 
 void Troca(int *x, int *y) {
   int aux;//Variável para auxiliar no "sort"
@@ -8,8 +8,6 @@ void Troca(int *x, int *y) {
   *x = *y;//O conteúdo de "x" passa a ser o conteúdo de "y"
   *y = aux;//O conteúdo de "y" passa a ser a variável auxiliar
 }
-
-//void Merge(int *v, int ini, int meio, int fim);
 
 void BubbleSort(int *v, int ini, int fim) {
 //Esta função percorre o vetor por completo verificando sempre de dois em dois, e vendo se estes estão em ordem crescente, até que este seja organizado.
@@ -76,6 +74,44 @@ void QuickSort(int *v, int ini, int fim) {
   }
 }
 
-/*void ShellSort(int *v, int ini, int fim);
+//void ShellSort(int *v, int ini, int fim);
 
-void MergeSort(int *v, int ini, int fim);*/
+void MergeSort(int *v, int ini, int fim) {
+  //Essa função serve primeiramente para dividir os dados em duas partes, para depois ser aplicado a função "Merge"
+  int meio = 0;
+  if (ini < fim) {//Verifica se é possível fazer a divisão
+    meio = floor((ini + fim)/ 2);//Divide no meio usando a função piso para arredondar
+    MergeSort(v, ini, meio);//Divide a parte do começo para o meio
+    MergeSort(v, meio+1, fim);//Divide do meio para o fim
+    Merge(v, ini, meio, fim);//Finalmente, com o meio já encontrado e o vetor divido, a função merge é chamada
+  }
+}
+
+void Merge(int *v, int ini, int meio, int fim) {
+  int i, j, k, *vetorAux, tam = fim-ini+1, fim1 = 0, fim2 = 0;
+  int parte1 = ini;//1ª parte do vetor que foi separado anteriormente
+  int parte2 = meio+1;//2ª parte do vetor que foi separado anteriormente
+  vetorAux = (int*)malloc(sizeof(int));//vetor temporário onde será feita a organização destes dois vetores
+  if (vetorAux == NULL) return;//Verifica se o sitema alocou memória
+  else {
+    for (i = 0; i < tam; i++) {//Condição do laço: enquanto i for menor que o tamanho do vetor
+      if (!fim1 && !fim2) {//If para verificar se é 1 ou 0 a condição de fim, caso já tenha chegado no final dos vetores repartidos (como se fosse uma booleana)
+        if (v[parte1] < v[parte2]) {//Se o elemento da parte 1 for menor que o elemento da parte 2, este será colocado no auxiliar, e logo após é incrementado a parte 1
+          vetorAux[i] = v[parte1++];
+        }
+        else vetorAux[i] = v[parte2++];//Caso contrário, o menor será a parte 2, então ela sera colocada, por conseguinte já é incrementado a parte 2
+        if (parte1 > meio) fim1 = 1;//Verifica se a parte 1 já chegou ao seu fim (serve para o if lá de cima)
+        if (parte2 > fim) fim2 = 1;//Verifica se a parte 2 já chegou ao seu fim (serve para o if lá de cima)
+      }
+      else {//Caso o if (o primeiro lá de cima) seja falso, então um dos vetores já chegou ao final, logo não há necessidade de ficar comparando, então entra nesse else e termina de colocar os elementos no vetor auxiliar
+        if (!fim1) vetorAux[i] = v[parte1++];
+        else vetorAux[i] = v[parte2++];
+      }
+    }
+    for (j = 0, k = ini; j < tam; j++, k++) {//Último laço, serve para colocar os elementos do auxiliar no vetor original
+      v[k] = vetorAux[j];
+    }
+  }
+  free(vetorAux);//Após já ter sido copiado os elementos, o vetor auxiliar tem sua memória liberada
+  vetorAux = NULL;//Evita leitura e escrita ilegal
+}
