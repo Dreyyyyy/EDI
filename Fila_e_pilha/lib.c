@@ -208,10 +208,21 @@ int SomaElementosFila(InicioFim *p);
 int ProdutoElementosPilha(InicioFim *p);
 
 // Exercicio 14-a
-int buscaSequencial(int *v, int k, int ini, int fim);
+int buscaSequencial(int *v, int k, int ini, int fim) {
+  //Busca um elemento k sequencialmente em um vetor
+  if(v[ini] == k) return 1;//Caso base: Se o primeiro elemento do vetor for igual ao buscado, retorna 1
+  if(ini == fim) return 0;//Caso base: Se o vetor foi percorrido por completo e chegou até aqui, o elemento procurado não está no vetor
+  buscaSequencial(v, k, ini+1, fim);//Caso recursivo:Retorna o vetor, o k procurado, o início somado mais um e o fim do vetor
+}
 
 // Exercicio 14-b
-int buscaBinaria(int *v, int k, int ini, int fim);
+int buscaBinaria(int *v, int k, int ini, int fim) {
+  //Busca um elemento k, dividindo o vetor sempre ao meio e excluindo a menor parte deste
+  if (v[(ini+fim)/ 2] == k) return 1;//Caso base: Se o elemento do meio do vetor dividido por 2 seja igual ao k, retorna 1
+  if (ini == fim) return 0;//Caso base: Se o vetor foi percorrido por completo e chegou até aqui, o elemento procurado não está no vetor
+  if (k > v[(ini+fim) / 2]) return buscaBinaria(v, k, (ini+fim)/2+1, fim);//Caso recursivo: caso k seja maior do que o elemento do começo do vetor ao meio, retorna o índice do vetor dívido por 2 novamente somado mais um
+  else buscaBinaria(v, k, ini, (ini+fim)/2);//Caso recursivo: retorna o indice dividido por 2 apenas
+}
 
 // Exercicio 15-a
 int buscaMaior(int *v, int n);

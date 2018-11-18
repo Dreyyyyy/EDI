@@ -2,7 +2,7 @@
 #include <time.h>
 
 int main(int argc, char const *argv[]) {
-  int i, chave;
+  int i, chave, v[5], num, resp;
   InicioFim *xF = (InicioFim*)malloc(sizeof(TipoCelula)), *yF = (InicioFim*)malloc(sizeof(TipoCelula)), *zF = (InicioFim*)malloc(sizeof(TipoCelula));
   if (xF == NULL || yF == NULL || zF == NULL) return 0;
   InicioFim *xP = (InicioFim*)malloc(sizeof(TipoCelula)), *yP = (InicioFim*)malloc(sizeof(TipoCelula)), *zP = (InicioFim*)malloc(sizeof(TipoCelula));
@@ -10,14 +10,14 @@ int main(int argc, char const *argv[]) {
   Cabeca(xF);
   Cabeca(yF);
   printf("Colocando 5 nós gerados aleatóriamentes na fila 1:\n");
-  for(i = 0; i < 3; i++) {
-    chave = rand () % 10;
+  for(i = 0; i < 4; i++) {
+    chave = rand () % 30;
     printf("Número gerado fila 1: %d\n", chave);
     InsereFila(xF, chave);
   }
   printf("\nColocando 5 nós gerados aleatóriamentes na fila 2:\n");
-    for(i = 0; i < 3; i++) {
-      chave = rand () % 10;
+    for(i = 0; i < 4; i++) {
+      chave = rand () % 30;
       printf("Número gerado fila 2: %d\n", chave);
       InsereFila(yF, chave);
     }
@@ -64,17 +64,34 @@ int main(int argc, char const *argv[]) {
   printf("\nConcatenando pilha 1 e pilha 2:\n");
   zP = ConcatenaPilha(xP, yP);
   ImprimePilha(zP);
-  printf("\nConcatenando fila 3 com pilha 3:\n");
+  /*printf("\nConcatenando fila 3 com pilha 3:\n");
   zF = ConcatenaFilaPilha(zF, zP);
   ImprimeFila(zF);
   printf("\nConcatenando pilha 4 com fila 4:\n");
   zP = ConcatenaFilaPilha(zP2, zF2);
-  ImprimeFila(zP);
+  ImprimeFila(zP);*/
   printf("\nRemovendo todos os nós da pilha 3:\n");
   FPVazia(zP);
   ImprimePilha(zP);
   printf("\nRemovendo todos os nós da fila 3:\n");
   FFVazia(zF);
   ImprimeFila(zF);
+  printf("\nVetor estático criado com elementos aleatórios:\n");
+  for(i = 0; i < 5; i++) {
+    v[i] = rand () % 30;
+    printf("%dº elemento: %d\n", i+1, v[i]);
+  }
+  printf("\nBusca sequencial:\n");
+  printf("\nDigite o número que deseja buscar:\n");
+  scanf("%d", &num);
+  resp = buscaSequencial(v, num, 0, 5);
+  if (resp == 1) printf("\nElemento encontrado!\n");
+  else printf("\nElemento não encontrado.\n");
+  printf("\nBusca binária:\n");
+  printf("\nDigite o número que deseja buscar:\n");
+  scanf("%d", &num);
+  resp = buscaBinaria(v, num, 0, 5);
+  if (resp == 1) printf("\nElemento encontrado!\n");
+  else printf("\nElemento não encontrado.\n");
   return 0;
 }
