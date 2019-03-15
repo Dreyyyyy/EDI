@@ -17,25 +17,31 @@ FDFKRUUR FDQVDGR3.*/
 
 void codifica(char *frase);
 
-int main(int argc, char const *argv[]) {
-  char frase[500];
-  printf("\nDigite uma frase qualquer: ");
-  scanf("%[^\n]", frase);
-  codifica(frase);
-  return 0;
+int main() {
+	char frase[300];
+	printf("\nDigite uma frase qualquer(máximo 300 caracteres):\n");
+	scanf("%[^\n]", frase);
+	codifica(frase);
+	return 0;
 }
 
 void codifica(char *frase) {
-  char codificada[500], fraseAjustada[500];
-  int i, tam = strlen(frase);
-  printf("\nFrase codificada abaixo:\n");
-  for (i = 0; i < tam; i++) {
-    if ((int)frase[i] == 32) printf("%c", frase[i]);
-    else {
-      fraseAjustada[i] = toupper(frase[i]);
-      codificada[i] = (int)fraseAjustada[i] + 3;
-      printf("%c", codificada[i]);
-    }
-  }
-  printf("\n\n");
+	int i = 0, tam = 0;
+	tam = strlen(frase);
+	char fraseAj[tam];
+	for (i = 0; i < tam; i++) {
+		fraseAj[i] = toupper (frase[i]);
+	}
+	printf("\nFrase codificada:\n");
+	for (i = 0; i< tam; i++) {
+		if ((int)fraseAj[i] > 64 && (int)fraseAj[i] < 90) {
+			fraseAj[i] = (int)fraseAj[i]+3;
+			printf("%c", fraseAj[i]);
+		}	
+		else printf("%c", fraseAj[i]);
+	}
+	printf("\n\n");
 }
+
+
+
