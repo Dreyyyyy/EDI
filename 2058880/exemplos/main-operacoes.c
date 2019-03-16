@@ -1,7 +1,7 @@
-#include "operacoes.h"
+#include "/home/drey/EDI/2058880/operacoes/operacoes.c"
 
 int main(int argc, char const *argv[]) {
-  int op = 0, res = 0;
+  int op = 0, res = 0, a = 0, b = 0;
   printf("\nLeia as instruções da biblioteca pelo arquivo de texto\n");
   printf("\nEscolha uma das opções abaixo:\n");
   printf("\n1. Multiplicação de números naturais usando soma\n");
@@ -11,13 +11,15 @@ int main(int argc, char const *argv[]) {
   scanf("%d", &op);
   switch (op) {
     case 1:
-      int a = 0, b = 0;
       printf("\nDigite dois números consecutivos, sendo estes naturais: ");
       scanf("%d%d", &a, &b);
       res = multiplicacao_naturais(a, b);
-      printf ("\nO resultado será:%d\n", res);break;
-    /*case 2:
-    case 3:*/
+      printf ("\nO resultado será:%d\n\n", res);break;
+    case 2:
+      printf("\nDigite um número natural para o cálculo de seu fatorial: ");
+      scanf("%d", &a);
+      res = fatorial(a);
+    //case 3:
     default:;
   }
   return 0;

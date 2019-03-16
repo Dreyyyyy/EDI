@@ -8,3 +8,8 @@ int multiplicacao_naturais(int a, int b) {
   }
   return res;
 }
+
+//II. Fatorial n! = (n-1) * (n-2) * (n-3) ... 2 * 1
+int fatorial(int a) {
+  if (a ==)
+}
