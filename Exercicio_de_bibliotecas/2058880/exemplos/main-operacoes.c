@@ -1,4 +1,4 @@
-#include "/home/drey/EDI/2058880/operacoes/operacoes.c"
+#include "/home/drey/EDI/Exercicio_de_bibliotecas/2058880/operacoes/operacoes.c"
 
 int main(int argc, char const *argv[]) {
   int op = 0, res = 0, a = 0, b = 0;
@@ -24,7 +24,7 @@ int main(int argc, char const *argv[]) {
       printf("\nDigite dois números consecutivos, sendo estes naturais: ");
       scanf("%d%d", &a, &b);
       res = divisao(a, b);
-      printf ("\nO resultado será:%d\n\n", res);break;    
+      printf ("\nO resultado será:%d\n\n", res);break;
     default:;
   }
   return 0;
