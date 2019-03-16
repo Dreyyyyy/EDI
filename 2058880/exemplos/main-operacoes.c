@@ -19,7 +19,12 @@ int main(int argc, char const *argv[]) {
       printf("\nDigite um número natural para o cálculo de seu fatorial: ");
       scanf("%d", &a);
       res = fatorial(a);
-    //case 3:
+      printf ("\nO resultado será:%d\n\n", res);break;
+    case 3:
+      printf("\nDigite dois números consecutivos, sendo estes naturais: ");
+      scanf("%d%d", &a, &b);
+      res = divisao(a, b);
+      printf ("\nO resultado será:%d\n\n", res);break;    
     default:;
   }
   return 0;
