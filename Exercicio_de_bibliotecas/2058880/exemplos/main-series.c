@@ -12,12 +12,12 @@ int main(int argc, char const *argv[]) {
     case 1:
       printf("\nDigite um número inteiro positivo: ");
       scanf("%d", &n);
-      res = sequencia_pow(a);
+      res = sequencia_pow(n);
       printf ("\nO resultado será:%d\n\n", res);break;
     case 2:
       printf("\nDigite um número inteiro positivo: ");
       scanf("%d", &n);
-      res = sequencia_alternando(a);
+      res = sequencia_alternando(n);
       printf ("\nO resultado será:%d\n\n", res);break;
     default:;
   }
