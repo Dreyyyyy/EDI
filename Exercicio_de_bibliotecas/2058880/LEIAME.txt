@@ -1,0 +1,1 @@
+Por algum motivo não consigo usar a biblioteca pelo terminal, então para a biblioteca funcionar deve colocar o caminho dela no "#include" de cada main.
