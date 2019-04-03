@@ -69,4 +69,5 @@ void popularidade(usuario *vetor, int n) {
         }
         printf("\n%s %d\n", (vetor+i)->nome, pop);
     }
+	printf("\n");
 }
