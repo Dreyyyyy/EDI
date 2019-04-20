@@ -256,7 +256,6 @@ int alturaNo(TipoListaSimples **primLista1, TipoChave chave) {
   return contador;//Retorna a altura
 }
 
-
 /* -------------------------> Profundidade do Nó.
 * Escreva uma função que calcule a profundidade de um dado nó (baseado na
 *chave).
