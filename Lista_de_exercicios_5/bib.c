@@ -9,6 +9,25 @@
 * campos adequados com NULL
 */
 
+void printa_lista(TipoListaSimples *lista) {
+    if (lista == NULL) {
+        printf("Nó cabeça não existe!\n");
+    }
+    else {
+        printf("Nó cabeça, chave:%d\n", lista->chave);//Printa o nó cabeça, apenas para verificação
+    }
+    if (lista->prox == NULL) {//Verifica se a lista está vazia
+        printf("Lista vazia!\n");
+    }
+    else {
+        lista = lista->prox;//Depois avança o ponteiro para o primeiro nó da lista
+        do {
+            printf("Chave:%d Valor:%d\n", lista->chave,lista->valorQualquer);
+            lista = lista->prox;
+        }while(lista != NULL);
+    }
+}
+
 TipoListaSimples *aloca_no(int chave) {
     TipoListaSimples *novoNo = NULL;
     novoNo = (TipoListaSimples*)malloc(sizeof(TipoListaSimples*));
@@ -17,6 +36,7 @@ TipoListaSimples *aloca_no(int chave) {
     }
     else {
         novoNo->chave = chave;
+        novoNo->valorQualquer = chave+19;
         novoNo->prox = NULL;
         return novoNo;
     }
@@ -45,14 +65,14 @@ TipoListaSimples *criaLista() {
 * Devolve endereço do nó recém inserido 
 * ou NULL em caso de insucesso.*/
 TipoListaSimples *insereInicioListaSimples(TipoListaSimples *cabeca, TipoChave chave) {
-    if(cabeca->prox == NULL) {
-        cabeca->prox = aloca_no(chave);
+    if(cabeca->prox == NULL) {//Verifica se a lista está vazia
+        cabeca->prox = aloca_no(chave);//Caso estiver, insere o primeiro nó, exclusive o nó cabeça
     }
     else {
         TipoListaSimples *novoNo = NULL;
-        novoNo = aloca_no(chave);
-        novoNo->prox = cabeca->prox;
-        cabeca->prox = novoNo;    
+        novoNo = aloca_no(chave);//devolve o endereço de memória para o novo nó
+        novoNo->prox = cabeca->prox;//novo nó aponta para o primeiro nó anterior
+        cabeca->prox = novoNo;//novo nó passa a ser o primeiro nó da lista    
     }
     return cabeca->prox;
 }
@@ -60,49 +80,158 @@ TipoListaSimples *insereInicioListaSimples(TipoListaSimples *cabeca, TipoChave c
 /* -------------------------> Atualiza primeiro no
 * Caso o primeiro nó exista, atualiza o campo 
 * valorQualquer com novoValor.*/
-void atualizaValor(TipoListaSimples *cabeca, TipoValor novoValor);
+void atualizaValor(TipoListaSimples *cabeca, TipoValor novoValor) {
+    if (cabeca == NULL) {//Verifica se foi criado o nó cabeça
+        return;
+    }
+    if (cabeca->prox == NULL) {//Verifica se a lista está vazia
+        return;
+    }
+    else {//Do contrário, altera o valor do primeiro nó
+        cabeca->prox->valorQualquer = novoValor; 
+    }
+}
 
 /* -------------------------> Remoção no início
 * Remove o primeiro no de uma lista com cabeca
 * caso ele exista.*/
-void removePrimeiroNo(TipoListaSimples *cabeca);
+void removePrimeiroNo(TipoListaSimples *cabeca) {
+    if(cabeca == NULL) {//Verifica se foi criado o nó cabeça
+        return;
+    }
+    if(cabeca->prox == NULL){//Verifica se a lista está vazia
+        return;
+    }
+    else {
+        TipoListaSimples *noAux = NULL;
+        noAux = cabeca->prox;//Auxiliar recebe o endereço do primeiro nó
+        cabeca->prox = cabeca->prox->prox;//O ponteiro "->prox" do nó cabeça da lista apontará para o novo primeiro nó, ou seja, o segundo nó anteriormente
+        free(noAux);//Libera o primeiro nó anterior
+        noAux = NULL;
+    }
+}
 
 /* -----------------> Busca pelo endereço de um nó dado um valor de chave
 * Devolve ponteiro para o nó cujo valor chave é 'chave'
 * ou NULL caso este não exista.*/
-TipoListaSimples *pesquisaNo(TipoListaSimples *cabeca, TipoChave chave);
+TipoListaSimples *pesquisaNo(TipoListaSimples *cabeca, TipoChave chave) {
+    if(cabeca == NULL) {//Caso base 1:Verifica se a lista está vazia
+        return NULL;
+    }
+    else if(cabeca->chave == chave) {//Caso base 3:Caso a chave for igual a procurada, retorna o endereço do ponteiro que contém a chave
+        return cabeca;
+    }
+    else {//Caso recursivo: Chama a própria função novamente, passando o próximo nó da lista
+        return pesquisaNo(cabeca->prox, chave);
+    }
+}
 
 /* -------------------------> Inserção no fim de uma lista
 * Insere nó no fim de uma lista com cabeça.
 * Devolve endereço do nó ou NULL em caso de
 * insucesso.*/
-TipoListaSimples * insereFimListaSimples(TipoListaSimples *cabeca, TipoChave chave);
+TipoListaSimples *insereFimListaSimples(TipoListaSimples *cabeca, TipoChave chave) {
+    if(cabeca == NULL) {//Caso base 1:Verifica se foi criado o nó cabeça
+        return NULL;
+    }
+    else if(cabeca->prox == NULL) {//Caso base 2:Verifica se a lista está vazia
+        cabeca->prox = aloca_no(chave);//Caso estiver, insere o primeiro nó, exclusive o nó cabeça
+    }
+    else {//Caso recursivo: Retorna o próximo nó da lista, e empilha até cair no caso base, e começar a inserir conforme desempilha, ou seja, do último para o primeiro
+        insereFimListaSimples(cabeca->prox, chave);
+    }
+}
 
 /* -------------------------> Remoção último nó
-* Remove o últimonó de uma lista com cabeca
+* Remove o último nó de uma lista com cabeca
 * caso ele exista.*/
-void removeUltimoNo(TipoListaSimples *cabeca);
+void removeUltimoNo(TipoListaSimples *cabeca) {
+    if (cabeca == NULL) {//Verifica se a lista possui o nó cabeça
+        return;
+    }
+    else if (cabeca->prox == NULL) {//Verifica se a lista está vazia
+        return;
+    }
+    else {
+        TipoListaSimples *noAnt = NULL, *noAux = NULL;
+        noAnt = cabeca->prox;//no anterior armazenará o endereço do nó que será o último após a remoção
+        noAux = cabeca->prox->prox;//no auxiliar percorrerá a lista até chegar ao último elemento antes da remoção
+        while (noAux->prox != NULL) {
+            noAnt = noAux;
+            noAux = noAux->prox;
+        }
+        noAnt->prox = NULL;//no anterior passa a ser o último
+        free(noAux);//libera o último nó antes da remoção
+        noAux = NULL;
+    }
+}
 
 /* -------------------------> Remove nó por valor de chave
 * Remove nó cujo valor chave seja igual a 'chave'
 * Mantêm lista inalterada caso este não exista.*/
-void removeNo(TipoListaSimples *cabeca, TipoChave chave);
+void removeNo(TipoListaSimples *cabeca, TipoChave chave) {
+    if (cabeca == NULL) {//Verifica se a lista possui cabeça
+        return;    
+    }
+    else if (cabeca->prox == NULL) {//Verifica se a lista está vazia
+        return;
+    }
+    else {
+        int check = 0;
+        TipoListaSimples *noAnt = NULL, *noAux = NULL;
+        noAnt = cabeca->prox;//Guarda o nó anterior ao que será removido
+        noAux = cabeca->prox->prox;//Recebe o segundo nó da lista, para andar nela
+        if (noAnt->chave == chave) {//Caso o primeiro nó da lista tiver a chave igual, remove este e encerra a função
+            cabeca->prox = noAnt->prox;
+            free(noAnt);
+            noAnt= NULL;
+            check = 1;
+        }
+        else {
+            while (noAux != NULL) {//Caso contrário, busca pelo nó que será removido, e remove caso encontrar
+                if (noAux->chave == chave) {
+                    noAnt->prox = noAux->prox;
+                    free(noAux);
+                    noAux = NULL;
+                    check = 1;
+                    break;
+                }
+                noAnt = noAux;
+                noAux = noAux->prox;
+            } 
+        }
+        if (check == 0) {//Se não encontrar, printa a seguinte frase e encerra a função
+            printf("\nChave inexistente!\n");                   
+        }       
+    }
+}
 
 /* -------------------------> Remove todos nós
 * Remove TODOS os nos da lista exceto o nó cabeça.*/
-void liberaNos(TipoListaSimples *cabeca);
+void liberaNos(TipoListaSimples *cabeca) {
+    if (cabeca->prox == NULL) {//Caso base: Verifica se a lista está vazia
+        return;
+    }
+    else {
+        removePrimeiroNo(cabeca);//Caso não estiver, remove nó por nó, pelo início
+        liberaNos(cabeca);//Caso recursivo: Empilhará a função até liberar todos os nós e cair no caso base
+    }
+}
 
 /* -------------------------> Remove todos nós
 * Remove TODOS os nós da lista em que o nó cabeça encontra-se
 * armazenado no endereço 
 *cabeca. Também remove o nó cabeça.*/
 
-void liberaTudo(TipoListaSimples **cabeca);
+void liberaTudo(TipoListaSimples **cabeca) {
+}
+
 /*========================>PROCEDIMENTOS ESPECÍFICOS DE LISTAS COM CABEÇA
 /* -------------------------> Cria cópia 
 * Cria uma nova lista cujos nós têm os mesmos
 * valores da lista dada. Devolve o ponteiro para 
-* o cabeça da nova lista. */TipoListaSimples * copiaListas(TipoListaSimples *cabeca);
+* o cabeça da nova lista. */
+TipoListaSimples * copiaListas(TipoListaSimples *cabeca);
 
 /* -------------------------> Cria cópia 
 * Calcula a interseção entre as duas listas

@@ -11,6 +11,8 @@ struct TipoListaSimples{
     struct TipoListaSimples *prox;
 };typedef struct TipoListaSimples TipoListaSimples;
 
+void printa_lista(TipoListaSimples *lista);
+
 TipoListaSimples *aloca_no(int chave);
 
 TipoListaSimples *criaLista();
