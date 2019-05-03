@@ -12,6 +12,7 @@
 void printa_lista(TipoListaSimples *lista) {
     if (lista == NULL) {
         printf("Nó cabeça não existe!\n");
+        return;
     }
     else {
         printf("Nó cabeça, chave:%d\n", lista->chave);//Printa o nó cabeça, apenas para verificação
@@ -204,7 +205,7 @@ void removeNo(TipoListaSimples *cabeca, TipoChave chave) {
             printf("\nChave inexistente!\n");                   
         }       
     }
-}
+}//No meu ver ficou bem prolixo isso aqui, porém arrumarei quando pensar em uma forma mais otimizada de fazer isso
 
 /* -------------------------> Remove todos nós
 * Remove TODOS os nos da lista exceto o nó cabeça.*/
@@ -224,6 +225,17 @@ void liberaNos(TipoListaSimples *cabeca) {
 *cabeca. Também remove o nó cabeça.*/
 
 void liberaTudo(TipoListaSimples **cabeca) {
+    if (*cabeca == NULL) {//Caso base: Quando o ponteiro cabeça da main estiver nulo, ou seja, quando a lista estiver vazia e sem cabeça, encerra a função
+        return;
+    }
+    else {//Caso contrário, remove ponteiro por ponteiro pelo início(inclusive o cabeça)
+        TipoListaSimples *aux = NULL;
+        aux = *cabeca;
+        *cabeca = (*cabeca)->prox;
+        free(aux);
+        aux = NULL;
+        liberaTudo(&(*cabeca));//Caso Recursivo: Chama a própria função até cair no caso base, ou seja, lista estiver vazia e sem cabeça
+    }
 }
 
 /*========================>PROCEDIMENTOS ESPECÍFICOS DE LISTAS COM CABEÇA
@@ -231,13 +243,41 @@ void liberaTudo(TipoListaSimples **cabeca) {
 * Cria uma nova lista cujos nós têm os mesmos
 * valores da lista dada. Devolve o ponteiro para 
 * o cabeça da nova lista. */
-TipoListaSimples * copiaListas(TipoListaSimples *cabeca);
+TipoListaSimples *copiaListas(TipoListaSimples *cabeca) {
+    TipoListaSimples *novaLista = NULL;
+    novaLista = criaLista();//Cria uma cabeça para a nova lista
+    cabeca = cabeca->prox;//Avança o ponteiro da primeira lista, para não ser copiado o nó cabeça desta
+    while (cabeca != NULL) {//Copia todos os nós da primeira lista, até esta chegar ao fim
+        insereInicioListaSimples(novaLista, cabeca->chave);
+        cabeca = cabeca->prox;
+    }
+    return novaLista;//Retorna um ponteiro pro cabeça da nova lista
+}
 
 /* -------------------------> Cria cópia 
 * Calcula a interseção entre as duas listas
 * dadas e insere tais nós numa (nova) terceira
 * lista. Devolve o ponteiro para o cabeça da nova lista.*/
-TipoListaSimples * intersecaoListas(TipoListaSimples *cabeca1, TipoListaSimples *cabeca2);
+TipoListaSimples * intersecaoListas(TipoListaSimples *cabeca1, TipoListaSimples *cabeca2) {
+    if (cabeca1 == NULL || cabeca2 == NULL) {//Verifica se a lista possui cabeça
+        return NULL;
+    }
+    else if (cabeca1->prox == NULL && cabeca2->prox == NULL) {//Verificar se a lista está vazia
+        return NULL;
+    }
+    else {
+        TipoListaSimples *lista3 = NULL, *cabecaAux1 = NULL, *cabecaAux2 = NULL;
+        lista3 = criaLista();
+        for (cabecaAux1 = cabeca1->prox; cabecaAux1 != NULL; cabecaAux1 = cabecaAux1->prox) {//Percorre a lista 1
+            for (cabecaAux2 = cabeca2->prox; cabecaAux2 != NULL; cabecaAux2 = cabecaAux2->prox) {//Percorre a lista 2
+                if (cabecaAux1->chave == cabecaAux2->chave) {//Quando os valores de ambas as listas forem iguais, insere na nova lista 3
+                    insereInicioListaSimples(lista3, cabecaAux1->chave);
+                }
+            }
+        }
+        return lista3;//Retorna um ponteiro para o cabeça da lista 3
+    }
+}
 
 /* -------------------------> Insere ordenado
 * Caso a lista dada não seja vazia, ASSUMA que ela está em ordem crescente por valor chave.

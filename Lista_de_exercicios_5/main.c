@@ -1,7 +1,7 @@
 #include "bib.h"
 
 int main(void) {
-    TipoListaSimples *lista = NULL, *busca = NULL, *lista2 = NULL;
+    TipoListaSimples *lista = NULL, *busca = NULL, *lista2 = NULL, *lista3 = NULL;
     int i = 0, chave = 0;
     lista = criaLista();
     printf("=>Verificando se o nó cabeça foi criado com sucesso:\n");
@@ -46,6 +46,12 @@ int main(void) {
     scanf("%d", &chave);
     removeNo(lista, chave);
     printa_lista(lista);
+    printf("\n=>Cria uma segunda lista, que é a cópia da primeira:\n");
+    lista2 = copiaListas(lista);
+    printa_lista(lista2); 
+    printf("\n=>Cria uma terceira lista com a interseção das chaves das listas anteriores:\n");
+    lista3 = intersecaoListas(lista, lista2);
+    printa_lista(lista3);
     printf("\n=>Remove todos os nós da lista, exceto o nó cabeça:\n");
     liberaNos(lista);
     printa_lista(lista);
