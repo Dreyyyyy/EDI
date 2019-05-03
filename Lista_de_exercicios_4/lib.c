@@ -10,7 +10,7 @@ TipoListaSimples *aloca_no(TipoChave chave, TipoValor valor) {
         aux->chave = chave;//Recebe os campos do nó
         aux->valorQualquer = valor;//Recebe os campos do nó
         aux->prox = NULL;//Recebe os campos do nó
-        return aux;//Retorna o endereço alocado para esse nó
+        return aux;//Retorna o endereço alocado para este nó
     }
 }
 
