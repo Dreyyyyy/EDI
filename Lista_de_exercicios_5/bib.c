@@ -9,6 +9,25 @@
 * campos adequados com NULL
 */
 
+void Troca(int *x, int *y) {
+  int aux;//Variável para auxiliar no "sort"
+  aux = *x;//Auxiliar recebe o conteúdo de "x"
+  *x = *y;//O conteúdo de "x" passa a ser o conteúdo de "y"
+  *y = aux;//O conteúdo de "y" passa a ser a variável auxiliar
+}
+
+void BubbleSort(int *v, int ini, int fim) {
+//Esta função percorre o vetor por completo verificando sempre de dois em dois, e vendo se estes estão em ordem crescente, até que este seja organizado.
+  int i = 0, j = 0;//Variáveis para laço inicializadas em zero por precaução
+  for (i = ini; i < fim; i++) {//Condição do laço: Enquanto "i" for menor que o fim
+    for (j = 0; j < fim; j++) {//Condição do laço: Enquanto o "j" for menor que o fim
+      if (*(v+j) >= *(v+j+1)) {//Caso no vetor que está sendo percorrido, o elemento da posição "j" for maior que o seu sucessor, a função "Troca" será chamada
+        Troca(v+j, v+j+1);//Tal função mudará as posições, para deixar o vetor em ordem crescente no final das iterações
+      }
+    }
+  }
+}
+
 void printa_lista(TipoListaSimples *lista) {
     if (lista == NULL) {
         printf("Nó cabeça não existe!\n");
@@ -290,16 +309,81 @@ void insereOrdenado(TipoListaSimples *cabeca, TipoChave chave);
 * Devolve o nó cabeça de uma nova lista
 * com os mesmos valores da lista dada porém
 * na nova lista os valores são ordenados  */
-TipoListaSimples *ordenaLista(TipoListaSimples *cabeca);
+TipoListaSimples *ordenaLista(TipoListaSimples *cabeca) {
+    if(cabeca->prox == NULL) {
+        return NULL;
+    }
+    else {
+        TipoListaSimples *listaAux = NULL, *novaLista = NULL;
+        int tam = 0, i = 0, j = 0;
+        listaAux = cabeca;//auxiliar para não alterar o ponteiro principal 
+        novaLista = criaLista();
+        while (listaAux != NULL) {//laço para obter o tamanho da lista
+            tam++; 
+            listaAux = listaAux->prox;
+        }
+        int valores[tam-1];//vetor criado para guardar os valores chaves da lista
+        while (cabeca != NULL) {//laço que armazena todos os valores chaves da lista no vetor
+            if (cabeca->chave != -1) {
+                valores[i] = cabeca->chave;
+            }
+            i++;
+            cabeca = cabeca->prox;
+        }
+        BubbleSort(valores, 0, tam-1);//Algorítmo de ordenação(não priorizei desempenho, mas foi o mais fácil de implementar na hora) para ordenar todos os valores chave
+        while (j < tam-1) {//Laço para inserir na nova lista todos os valores do vetor, que agora estão ordenados
+            insereFimListaSimples(novaLista, valores[j]);
+            j++;
+        }
+        return novaLista;//Retorna um ponteiro para o cabeça da nova lista
+    }
+}
 
 /* -------------------------> Remove/Insere
 * Remove último nó da segunda lista (caso ele exista).
 * Insere um nó na última posição da primeira lista.
 * O novo nó deve ter os mesmos valores do nó removido.
-*/void insereRemove(TipoListaSimples *cabeca1,TipoListaSimples *cabeca2);
+*/
+void insereRemove(TipoListaSimples *cabeca1, TipoListaSimples *cabeca2) {
+    if (cabeca1->prox == NULL || cabeca2->prox == NULL) {
+        return;
+    }
+    else {
+        TipoListaSimples *listaAux = NULL;
+        listaAux = cabeca2;//Auxiliar para não alterar o endereço do principal
+        while (listaAux->prox != NULL) {//Percorre a lista até achar o último nó
+            listaAux = listaAux->prox;
+        }
+        insereFimListaSimples(cabeca1, listaAux->chave);//Insere no fim da primeira lista
+        removeUltimoNo(cabeca2);//Remove o último nó da segunda lista
+    }
+}
 
 /* -------------------------> Transplanta Nó.
-* Desconecta o último nóda segunda lista (caso ele exista). 
+* Desconecta o último nó da segunda lista (caso ele exista). 
 * Conecta tal nó na última posição da primeira lista.
 * NOTE QUE A REGIÃO DE MEMÓRIA DO NÓ NÃO MUDA!*/
-void transplantaNo(TipoListaSimples *cabeca1, TipoListaSimples *cabeca2);
+void transplantaNo(TipoListaSimples *cabeca1, TipoListaSimples *cabeca2) {
+    if (cabeca1->prox == NULL || cabeca2->prox == NULL) {//Verificar se as listas estão vazias
+        return;
+    }
+    else {
+        TipoListaSimples *noAnt = NULL;
+        noAnt = cabeca2;
+        cabeca2 = cabeca2->prox;
+        if (cabeca2 == NULL) {//Caso a lista não possua elementos fora o cabeça, encerra a função
+            return;
+        }
+        else {
+            while (cabeca2->prox != NULL) {//Percorre a lista 2 até achar o último nó, e o penúltimo também
+                noAnt = cabeca2;
+                cabeca2 = cabeca2->prox;
+            }    
+            while (cabeca1->prox != NULL) {//Percorre a lista 1 até achar o último nó
+                cabeca1 = cabeca1->prox;
+            }    
+            cabeca1->prox = cabeca2;//Último nó da lista 1 aponta para o endereço do último nó da lista 2
+            noAnt->prox = NULL;//Desconecta o último nó da lista 2
+        }
+    }
+}

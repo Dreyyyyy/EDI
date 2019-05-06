@@ -11,6 +11,10 @@ struct TipoListaSimples{
     struct TipoListaSimples *prox;
 };typedef struct TipoListaSimples TipoListaSimples;
 
+void Troca(int *x, int *y);
+
+void BubbleSort(int *v, int ini, int fim);
+
 void printa_lista(TipoListaSimples *lista);
 
 TipoListaSimples *aloca_no(int chave);
