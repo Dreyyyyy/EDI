@@ -24,6 +24,6 @@ void remove_prim(TipoListaCircular **prim);
 
 TipoListaCircular *insereInicioListaCircular(TipoListaCircular **prim, TipoChave chave, TipoValor valor);
 
-void removeNo(TipoListaCircular **prim, TipoChave chave);
+int removeNo(TipoListaCircular **prim, TipoChave chave);
 
 TipoListaCircular *copiaListaPar(TipoListaCircular *prim);

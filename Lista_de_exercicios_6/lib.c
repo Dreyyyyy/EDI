@@ -71,9 +71,9 @@ TipoListaCircular *insereInicioListaCircular(TipoListaCircular **prim, TipoChave
 * Remove nó cujo valor chave seja igual a 'chave'
 * Mantêm lista inalterada caso este não exista.
 */
-void removeNo(TipoListaCircular **prim, TipoChave chave) {
+int removeNo(TipoListaCircular **prim, TipoChave chave) {
   assert(prim);//Verifica se o ponteiro de ponteiro é válido
-  if (*prim == NULL) return;//Se a lista for vazia encerra a função
+  if (*prim == NULL) return 0;//Se a lista for vazia encerra a função
   else if ((*prim)->chave == chave) remove_prim(prim);//Se o primeiro nó for o buscado, remove este pela outra função
   else {//Caso contrário, inicia-se a busca pelo nó desejado
     TipoListaCircular *noAux = NULL, *noPenult = NULL;
@@ -83,13 +83,17 @@ void removeNo(TipoListaCircular **prim, TipoChave chave) {
       noAux = noAux->prox;
       noPenult = noPenult->prox;
     }//Ou seja, Percorre até o fim da lista buscando a chave
-    if (noAux == *prim) printf("Chave não encontrada na lista.\n");//Caso o auxiliar tenha chegado ao fim, a chave não foi encontrada
+    if (noAux == *prim) {
+      printf("Chave não encontrada na lista.\n");//Caso o auxiliar tenha chegado ao fim, a chave não foi encontrada
+      return 0;
+    }
     else {//Caso contrário, remove o nó encontrado
       noPenult->prox = noAux->prox;
       free(noAux);
       noAux = NULL;
     }
   }
+  return 1;
 }
 
 /* -------------------------> Cria cópia
@@ -97,4 +101,15 @@ void removeNo(TipoListaCircular **prim, TipoChave chave) {
 * Devolve o ponteiro para
 * o primeiro nó da nova lista.
 */
-TipoListaCircular *copiaListaPar(TipoListaCircular *prim);
+TipoListaCircular *copiaListaPar(TipoListaCircular *prim) {
+  if (prim == NULL) return NULL;
+  else {
+    TipoListaCircular *listaAux = NULL, *novaLista = NULL;
+    for (listaAux = prim->prox; listaAux != prim; listaAux = listaAux->prox) {
+      if (listaAux->chave % 2 == 0) {
+        insereInicioListaCircular(&novaLista, listaAux->chave, listaAux->valorQualquer);
+      }
+    }
+    return novaLista;
+  }
+}
