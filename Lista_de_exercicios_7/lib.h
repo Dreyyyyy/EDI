@@ -25,6 +25,6 @@ TipoListaEncadeada *insereInicioListaEncadeada(TipoListaEncadeada **prim, TipoCh
 
 TipoListaEncadeada *insereFimListaEncadeada(TipoListaEncadeada **prim, TipoChave chave, TipoValor valor);
 
-void removeNo(TipoListaEncadeada **prim, TipoChave chave);
+int removeNo(TipoListaEncadeada **prim, TipoChave chave);
 
 TipoListaEncadeada *copiaLista3(TipoListaEncadeada *prim);
