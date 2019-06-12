@@ -1,6 +1,6 @@
 #include "ordenacao.h"
 
-//Meu código está todo comentado, pois essa foi a minha forma de memorizar, entender e estudar o que eu fiz(E tentar explicar mas acho que tem coisas ali que só vai fazer sentido para mim :")).
+//Meu código está todo comentado, pois essa foi a minha forma de memorizar, entender e estudar o que eu fiz(E tentar explicar mas acho que tem coisas ali que só vão fazer sentido para mim :")).
 
 void Troca(int *x, int *y) {
   int aux;//Variável para auxiliar no "sort"
