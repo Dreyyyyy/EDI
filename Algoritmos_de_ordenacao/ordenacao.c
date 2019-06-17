@@ -1,19 +1,20 @@
 #include "ordenacao.h"
 
-//Meu código está todo comentado, pois essa foi a minha forma de memorizar, entender e estudar o que eu fiz(E tentar explicar mas acho que tem coisas ali que só vão fazer sentido para mim :")).
+//Meu código está todo comentado, pois essa foi a minha forma de memorizar, entender e estudar o que eu fiz.
 
+//Troca os elementos do vetor de posição
 void Troca(int *x, int *y) {
-  int aux;//Variável para auxiliar no "sort"
-  aux = *x;//Auxiliar recebe o conteúdo de "x"
-  *x = *y;//O conteúdo de "x" passa a ser o conteúdo de "y"
-  *y = aux;//O conteúdo de "y" passa a ser a variável auxiliar
+  int aux;
+  aux = *x;
+  *x = *y;
+  *y = aux;
 }
 
-void BubbleSort(int *v, int ini, int fim) {
 //Esta função percorre o vetor por completo verificando sempre de dois em dois, e vendo se estes estão em ordem crescente, até que este seja organizado.
-  int i = 0, j = 0;//Variáveis para laço inicializadas em zero por precaução
-  for (i = ini; i < fim; i++) {//Condição do laço: Enquanto "i" for menor que o fim
-    for (j = 0; j < fim; j++) {//Condição do laço: Enquanto o "j" for menor que o fim
+void BubbleSort(int *v, int ini, int fim) {
+  int i = 0, j = 0;
+  for (i = ini; i < fim; i++) {
+    for (j = 0; j < fim; j++) {
       if (*(v+j) >= *(v+j+1)) {//Caso no vetor que está sendo percorrido, o elemento da posição "j" for maior que o seu sucessor, a função "Troca" será chamada
         Troca(v+j, v+j+1);//Tal função mudará as posições, para deixar o vetor em ordem crescente no final das iterações
       }
@@ -21,12 +22,12 @@ void BubbleSort(int *v, int ini, int fim) {
   }
 }
 
+//Esta função percorre o vetor inicialmente buscando o menor elemento, e depois sempre o trocando pela primeira posição não ordenada, de forma que isso a ordenará 
 void SelectionSort(int *v, int ini, int fim) {
-  //Esta função percorre o vetor inicialmente buscando o menor elemento, e depois sempre o trocando pela primeira posição não ordenada, de forma que isso a ordenará (Outra explicação que só deve fazer sentido pra mim)
-  int i = 0, j = 0, menor = 0, aux;//Variáveis para laço inicializadas em zero por precaução
-  for(i = 0; i < fim; i++) {//Condição do laço: Enquanto "i" for menor que o fim
-    menor = i;//menor elemento começa como o primeiro do vetor
-    for (j= i+1; j < fim+1; j++) {//Condição do laço: Enquanto o "j" for menor que o fim+1
+  int i = 0, j = 0, menor = 0, aux;
+  for(i = 0; i < fim; i++) {
+    menor = i;//será o indice do menor elemento
+    for (j= i+1; j < fim+1; j++) {
       if (v[j] < v[menor]) {//Caso o vetor na posição "j" seja menor do que o atual índice que contém o menor vetor
         menor = j;//O novo menor passará a ser tal índice
       }
@@ -37,27 +38,27 @@ void SelectionSort(int *v, int ini, int fim) {
   }
 }
 
+//Esta função percorre todo o vetor, e ordena o parte por parte, colocando sempre o elemento em questão no auxiliar, verifica se este é menor que seus anteriores e o coloca em seu lugar correto;
 void InsertionSort(int *v, int ini, int fim) {
-  //Esta função percorre todo o vetor, e ordena o parte por parte, colocando sempre o vetor em questão no auxiliar, verifica se este é menor que seus anteriores e o coloca em seu lugar correto;
-  int i = 0, j = 0, aux;//Variáveis para laço inicializadas em zero por precaução
-  for (i = (ini+1); i <= fim; i++) {//Condição do laço: Enquanto "i" for menor ou igual ao fim
+  int i = 0, j = 0, aux;
+  for (i = (ini+1); i <= fim; i++) {
     aux = v[i];//Auxiliar recebe o elemento em questão, para ser comparado aos seus anteriores
     j = i-1;//j recebe a posição i-1
-    while (j >= ini && aux < v[j]) {//Enquanto o j for maior que o início e o auxiliar ser menor do que o elemento do vetor na posição j
+    while (j >= ini && aux < v[j]) {
       Troca(v+j+1, v+j);//Tal elemento é trocado com o seu anterior, e isso repete a cada iteração até que a parte inicial seja ordenada
       j = j-1;//j recebe a posição i-1
     }
   }
 }
 
+//Esta função tem como objetivo dividir a organização em partes menores, assim sendo mais fácil de se organizar, logo inicia-se com o pivo, e este vai sendo comparado com todos, e os elemeento são ordenados por ordem crescente, menores antes do pivo e maiores depois, até que tudo seja organizado.
 void QuickSort(int *v, int ini, int fim) {
-  //Esta função tem como objetivo dividir a organização em partes menores, assim sendo mais fácil de se organizar, logo inicia-se com o pivo, e este vai sendo comparado com todos, e os elemeento são ordenados por ordem crescente, menores antes do pivo e maiores depois, até que tudo seja organizado.
-  int i = ini, j = fim, pivo = v[ini];//Variáveis inicializadas
-  while (i <= j) {//Condição do laço: Enquanto "i" for menor igual a "j"
-    while (v[i] < pivo) {//Condição do laço: Enquanto vetor no índice "i" for menor que pivo
+  int i = ini, j = fim, pivo = v[ini];
+  while (i <= j) {
+    while (v[i] < pivo) {
       i = i+1;//i é incrementado(Busca um elemento da esquerda para direita que seja menor que meu pivo)
     }
-    while (v[j] > pivo) {//Condição do laço: Enquanto vetor no índice "j" for maior que o pivo
+    while (v[j] > pivo) {
       j = j-1;//j é decrementado(Busca um elemento da direita para esquerda que seja maior que meu pivo)
     }
     if (i <= j) {//Se o meu índice da esquerda for menor que o da direita, entra nessa condição e troca os elementos, para organizá-los de forma que os menores fiquem na esquerda do pivo e os maiores na direita
@@ -78,8 +79,7 @@ void ShellSort(int *v, int ini, int fim) {
   int tam = fim-ini+1;//fórmula para o tamanho do vetor
   int dist = tam / 2;//o "gap" ou a distância entre o elemento escolhido e o próximo será representado aqui
   while (dist > 0) {//Condição do laço: enquanto a distância for maior que zero (pois se já for zero não há mais elementos para comparar)
-    int i = 0, j = 0;//Variáveis para laço inicializadas em zero por precaução
-    //Sinceramente eu não entendi muito o que acontece daqui, vi vários tutoriais e todos eram muito semelhantes com essa parte, então eu a coloquei e testei e deu certo, mas não consegui entender as iterações de forma completa
+    int i = 0, j = 0;
     for (int i = dist; i < tam; i++) {
       int varAux = v[i];
       for (j = i; j >= dist && v[j-dist] > varAux; j -= dist) {
@@ -91,8 +91,8 @@ void ShellSort(int *v, int ini, int fim) {
   }
 }
 
+//Essa função serve primeiramente para dividir os dados em duas partes, para depois ser aplicado a função "Merge"
 void MergeSort(int *v, int ini, int fim) {
-  //Essa função serve primeiramente para dividir os dados em duas partes, para depois ser aplicado a função "Merge"
   int meio = 0;
   if (ini < fim) {//Verifica se é possível fazer a divisão
     meio = floor((ini + fim)/ 2);//Divide no meio usando a função piso para arredondar
@@ -109,7 +109,7 @@ void Merge(int *v, int ini, int meio, int fim) {
   vetorAux = (int*)malloc(sizeof(int));//vetor temporário onde será feita a organização destes dois vetores
   if (vetorAux == NULL) return;//Verifica se o sitema alocou memória
   else {
-    for (i = 0; i < tam; i++) {//Condição do laço: enquanto i for menor que o tamanho do vetor
+    for (i = 0; i < tam; i++) {
       if (!fim1 && !fim2) {//If para verificar se é 1 ou 0 a condição de fim, caso já tenha chegado no final dos vetores repartidos (como se fosse uma booleana)
         if (v[parte1] < v[parte2]) {//Se o elemento da parte 1 for menor que o elemento da parte 2, este será colocado no auxiliar, e logo após é incrementado a parte 1
           vetorAux[i] = v[parte1++];
@@ -128,5 +128,5 @@ void Merge(int *v, int ini, int meio, int fim) {
     }
   }
   free(vetorAux);//Após já ter sido copiado os elementos, o vetor auxiliar tem sua memória liberada
-  vetorAux = NULL;//Evita leitura e escrita ilegal
+  vetorAux = NULL;
 }
